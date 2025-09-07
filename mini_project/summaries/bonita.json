@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "filename": "bonita.md",
+    "title": "Bonita Beauty Salon - Brand Story and Customer Experience",
+    "duration": "29.45s",
+    "analysis_date": "2025-09-07"
+  },
+  "classification": {
+    "awareness_stage": {
+      "primary": "Problem Aware",
+      "confidence": 88,
+      "rationale": "Opens by validating a shared frustration ('pressure tactics') that many viewers have experienced, building empathy and trust before introducing their solution. This validates the prospect's problem while positioning Bonita as understanding their pain point."
+    },
+    "content_type": {
+      "primary": "Brand Story + Testimonial",
+      "secondary": "Educational",
+      "confidence": 92
+    },
+    "target_persona": {
+      "primary": "Service-Conscious Consumer",
+      "secondary": "Quality-Focused Professional",
+      "confidence": 85
+    }
+  },
+  "production_assessment": {
+    "visual_quality": 90,
+    "audio_quality": 88,
+    "editing_quality": 87,
+    "overall_score": 89,
+    "professional_ready": true
+  },
+  "content_analysis": {
+    "key_messages": [
+      "Honest consultation vs pressure tactics",
+      "Quality service and genuine care as core values",
+      "Professional CBD location positioning",
+      "Client-centered approach and customized solutions",
+      "Bonita means beautiful - brand identity connection"
+    ],
+    "emotional_tone": ["Trustworthy", "Empathetic", "Professional", "Genuine", "Welcoming"],
+    "cta_strength": {
+      "type": "Soft CTA",
+      "effectiveness": 75,
+      "message": "Experience the difference at our CBD locations. Learn more about the Bonita approach."
+    }
+  },
+  "strategic_assessment": {
+    "campaign_readiness": "Ready",
+    "deployment_recommendations": [
+      "Ideal for retargeting audiences who have shown interest in beauty services",
+      "Perfect for Problem Aware stage - use after prospect identifies with pressure tactics issue",
+      "Strong for brand introduction sequences in funnel",
+      "Use in awareness campaigns targeting service-conscious demographics",
+      "Effective for building trust before moving to Solution Aware content"
+    ],
+    "content_gaps": [
+      "Missing Solution Aware (Category) content comparing salon approaches",
+      "No Product Aware content showcasing specific services and pricing",
+      "Lacks Most Aware conversion content with direct booking CTAs",
+      "Missing competitive differentiation against other premium salons",
+      "No specific service demonstrations or before/after testimonials"
+    ]
+  }
+}

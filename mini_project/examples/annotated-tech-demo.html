@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Feature Demo - Annotated UI Components</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-elevation-1: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-elevation-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-elevation-3: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --annotation-bg: rgba(0, 0, 0, 0.9);
+            --annotation-border: #4facfe;
+            --code-bg: #1e293b;
+            --code-text: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark-gradient);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-feature-settings: 'cv11', 'ss01';
+            font-variant-numeric: tabular-nums;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        /* TECH DEMO: Animated Background Shapes */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.8;
+            /* CSS Animation with GPU acceleration */
+        }
+
+        .bg-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px); /* CSS Filter for blur effect */
+            animation: float 20s infinite ease-in-out; /* Infinite CSS Animation */
+            will-change: transform; /* GPU optimization hint */
+        }
+
+        .bg-shape:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, #667eea, #764ba2); /* CSS Gradient */
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-shape:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            top: 60%;
+            right: 10%;
+            animation-delay: -7s; /* Staggered animation timing */
+        }
+
+        .bg-shape:nth-child(3) {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            33% { transform: translateY(-30px) scale(1.1); }
+            66% { transform: translateY(15px) scale(0.9); }
+        }
+
+        /* TECH DEMO: Glass Morphism Container */
+        .main-container {
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .glass-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: var(--glass-bg); /* Semi-transparent background */
+            backdrop-filter: blur(20px) saturate(180%); /* Glass morphism effect */
+            -webkit-backdrop-filter: blur(20px) saturate(180%); /* Safari support */
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow-elevation-3); /* Multi-layer shadow */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            /* CSS Pseudo-element for subtle highlight */
+        }
+
+        /* TECH DEMO: Advanced Typography Hero */
+        .hero-header {
+            padding: 4rem 3rem;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem); /* Responsive typography with clamp() */
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text; /* Gradient text effect */
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em; /* Negative letter spacing for modern look */
+            line-height: 1.1;
+        }
+
+        /* TECH DEMO: CSS Grid with Auto-Fit */
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive CSS Grid */
+            gap: 2rem;
+            max-width: 800px;
+            margin: 2rem auto 0;
+        }
+
+        /* TECH DEMO: Advanced Hover Effects with Transform3D */
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Custom easing curve */
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transform: scaleX(0); /* CSS Transform for animation */
+            transition: transform 0.3s ease;
+            transform-origin: left; /* Transform origin control */
+        }
+
+        .metric-card:hover {
+            transform: translateY(-8px) scale(1.02); /* 3D Transform on hover */
+            box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4); /* Elevated shadow */
+        }
+
+        .metric-card:hover::before {
+            transform: scaleX(1); /* Scale animation on hover */
+        }
+
+        /* TECH DEMO: Sticky Navigation with Backdrop Filter */
+        .nav-container {
+            position: sticky; /* Sticky positioning */
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px); /* Backdrop blur for glass effect */
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-tabs {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* TECH DEMO: Animated Tab Indicator */
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 3px 3px 0 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
+            width: 50%;
+            will-change: transform; /* GPU optimization */
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            text-align: center;
+        }
+
+        .nav-tab:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #ffffff;
+        }
+
+        /* TECH DEMO: CSS Animations with Keyframes */
+        .section {
+            display: none;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Custom animation */
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px); /* Transform animation */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TECH DEMO: Advanced Data Table with Hover States */
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-elevation-2);
+            margin-top: 2rem;
+        }
+
+        .data-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            transform: scale(1.01); /* Subtle scale on hover */
+            box-shadow: var(--shadow-elevation-1);
+        }
+
+        /* TECH DEMO: CSS Custom Properties (Variables) */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* TECH DEMO: Shimmer Animation Effect */
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .badge:hover::before {
+            left: 100%; /* Shimmer effect on hover */
+        }
+
+        /* TECH DEMO: CSS Filter and Blur Effects */
+        .quality-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite; /* Infinite shimmer animation */
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* TECH DEMO: Intersection Observer Target Elements */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* TECH DEMO: CSS Flexbox Advanced Layout */
+        .content-wrapper {
+            padding: 3rem;
+            min-height: 600px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Auto-fit grid */
+            gap: 1rem;
+        }
+
+        /* TECH DEMO: Form Input Focus States */
+        .filter-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            background: white;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); /* Custom focus ring */
+            transform: scale(1.02); /* Subtle scale on focus */
+        }
+
+        /* TECH DEMO: Canvas Integration Styling */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-elevation-2);
+            margin-top: 3rem;
+        }
+
+        .chart {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* TECH DEMO: CSS Animation with Transform */
+        .chart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+            animation: chartShimmer 3s infinite; /* Chart loading animation */
+        }
+
+        @keyframes chartShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* TECH DEMO: Custom Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gradient); /* Gradient scrollbar */
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-gradient);
+        }
+
+        /* TECH DEMO: Loading Animation with CSS */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite; /* CSS Spinner */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* TECH DEMO: Annotation System */
+        .annotation {
+            position: absolute;
+            background: var(--annotation-bg);
+            border: 2px solid var(--annotation-border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: white;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 300px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .annotation.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .annotation::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--annotation-border);
+        }
+
+        .annotation-title {
+            color: var(--annotation-border);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+        }
+
+        .code-snippet {
+            background: var(--code-bg);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--annotation-border);
+        }
+
+        /* TECH DEMO: Hover Zones for Annotations */
+        .hover-zone {
+            position: relative;
+            cursor: help;
+        }
+
+        .hover-zone:hover .annotation {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* TECH DEMO: Demo Content Styles */
+        .demo-content {
+            padding: 3rem;
+            color: white;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .demo-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tech-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .tech-card h3 {
+            color: var(--annotation-border);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tech-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tech-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tech-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* TECH DEMO: Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .demo-title {
+                font-size: 2rem;
+            }
+            
+            .hero-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+        }
+
+        /* TECH DEMO: CSS Variables for Theme Switching */
+        [data-theme="dark"] {
+            --primary-gradient: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            --glass-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --primary-gradient: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- TECH DEMO: Loading Animation -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+        <div class="annotation" style="position: fixed; top: 60%; left: 50%; transform: translateX(-50%); opacity: 1;">
+            <div class="annotation-title">CSS Animation</div>
+            <div>Loading spinner with transform rotation</div>
+            <div class="code-snippet">animation: spin 1s linear infinite;</div>
+        </div>
+    </div>
+
+    <!-- TECH DEMO: Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        CSS Variables Theme
+        <div class="annotation" style="top: 120%; left: -200px;">
+            <div class="annotation-title">CSS Custom Properties</div>
+            <div>Dynamic theme switching using CSS variables</div>
+            <div class="code-snippet">:root { --primary: #667eea; }</div>
+        </div>
+    </button>
+
+    <!-- TECH DEMO: Animated Background -->
+    <div class="animated-bg hover-zone">
+        <div class="bg-shapes">
+            <div class="bg-shape"></div>
+            <div class="bg-shape"></div>
+            <div class="bg-shape"></div>
+        </div>
+        <div class="annotation" style="top: 20%; left: 20%;">
+            <div class="annotation-title">CSS Animations + GPU</div>
+            <div>Floating shapes with blur filters</div>
+            <div class="code-snippet">filter: blur(100px);<br>animation: float 20s infinite;<br>will-change: transform;</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- TECH DEMO: Glass Morphism Container -->
+        <div class="glass-container hover-zone">
+            <div class="annotation" style="top: -60px; left: 50px;">
+                <div class="annotation-title">Glass Morphism</div>
+                <div>Backdrop blur with transparency</div>
+                <div class="code-snippet">backdrop-filter: blur(20px);<br>background: rgba(255,255,255,0.1);</div>
+            </div>
+
+            <!-- TECH DEMO: Advanced Typography -->
+            <header class="hero-header">
+                <h1 class="hero-title hover-zone">
+                    Technical Feature Demonstration
+                    <div class="annotation" style="top: -80px; left: 50%;">
+                        <div class="annotation-title">Advanced Typography</div>
+                        <div>Gradient text with responsive clamp()</div>
+                        <div class="code-snippet">font-size: clamp(2.5rem, 5vw, 4.5rem);<br>background: linear-gradient(...);<br>-webkit-background-clip: text;</div>
+                    </div>
+                </h1>
+                <p class="hero-subtitle">Annotated UI Components with Modern CSS & JavaScript</p>
+                
+                <!-- TECH DEMO: CSS Grid Auto-Fit -->
+                <div class="hero-metrics hover-zone">
+                    <div class="annotation" style="top: -60px; left: 0;">
+                        <div class="annotation-title">CSS Grid Auto-Fit</div>
+                        <div>Responsive grid without media queries</div>
+                        <div class="code-snippet">grid-template-columns:<br>repeat(auto-fit, minmax(200px, 1fr));</div>
+                    </div>
+                    
+                    <!-- TECH DEMO: 3D Transform Cards -->
+                    <div class="metric-card hover-zone animate-on-scroll">
+                        <span class="metric-number">12</span>
+                        <span class="metric-label">CSS Features</span>
+                        <div class="annotation" style="top: -100px; left: -50px;">
+                            <div class="annotation-title">3D Transform + Elevation</div>
+                            <div>GPU-accelerated hover effects</div>
+                            <div class="code-snippet">transform: translateY(-8px) scale(1.02);<br>box-shadow: 0 32px 64px -12px;</div>
+                        </div>
+                    </div>
+                    <div class="metric-card hover-zone animate-on-scroll">
+                        <span class="metric-number">8</span>
+                        <span class="metric-label">JS Techniques</span>
+                    </div>
+                    <div class="metric-card hover-zone animate-on-scroll">
+                        <span class="metric-number">100%</span>
+                        <span class="metric-label">Single HTML</span>
+                    </div>
+                    <div class="metric-card hover-zone animate-on-scroll">
+                        <span class="metric-number">∞</span>
+                        <span class="metric-label">Animations</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- TECH DEMO: Sticky Navigation -->
+            <nav class="nav-container hover-zone">
+                <div class="annotation" style="top: -60px; left: 50%;">
+                    <div class="annotation-title">Sticky Navigation</div>
+                    <div>Backdrop filter with animated indicator</div>
+                    <div class="code-snippet">position: sticky;<br>backdrop-filter: blur(20px);</div>
+                </div>
+                <div class="nav-tabs">
+                    <button class="nav-tab active" onclick="switchSection('demo')">Tech Demo</button>
+                    <button class="nav-tab" onclick="switchSection('features')">Feature List</button>
+                    <!-- TECH DEMO: Animated Tab Indicator -->
+                    <div class="nav-indicator hover-zone">
+                        <div class="annotation" style="top: 40px; left: -100px;">
+                            <div class="annotation-title">Animated Indicator</div>
+                            <div>Smooth tab transitions</div>
+                            <div class="code-snippet">transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);</div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Content Sections -->
+            <main class="content-wrapper">
+                <!-- TECH DEMO: Section Animations -->
+                <section id="demo" class="section active">
+                    <div class="demo-content">
+                        <h2 class="demo-title">Interactive Tech Demo</h2>
+                        <p class="demo-subtitle">Hover over elements to see technical annotations</p>
+
+                        <!-- TECH DEMO: Advanced Grid Layout -->
+                        <div class="tech-grid hover-zone">
+                            <div class="annotation" style="top: -60px; left: 200px;">
+                                <div class="annotation-title">Responsive Grid</div>
+                                <div>Auto-fit grid with gap control</div>
+                                <div class="code-snippet">display: grid;<br>grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));</div>
+                            </div>
+                            
+                            <div class="tech-card animate-on-scroll">
+                                <h3>CSS Grid & Flexbox</h3>
+                                <ul class="tech-list">
+                                    <li>Auto-fit responsive grids</li>
+                                    <li>Flexible gap management</li>
+                                    <li>Advanced alignment</li>
+                                    <li>Container queries ready</li>
+                                </ul>
+                            </div>
+
+                            <div class="tech-card animate-on-scroll hover-zone">
+                                <h3>Glass Morphism</h3>
+                                <div class="annotation" style="top: -120px; left: -100px;">
+                                    <div class="annotation-title">Backdrop Filter</div>
+                                    <div>Modern glass effect with blur</div>
+                                    <div class="code-snippet">backdrop-filter: blur(10px) saturate(180%);<br>background: rgba(255,255,255,0.1);</div>
+                                </div>
+                                <ul class="tech-list">
+                                    <li>Backdrop-filter blur</li>
+                                    <li>Transparency layers</li>
+                                    <li>Border highlights</li>
+                                    <li>Shadow elevation</li>
+                                </ul>
+                            </div>
+
+                            <div class="tech-card animate-on-scroll hover-zone">
+                                <h3>Advanced Animations</h3>
+                                <div class="annotation" style="top: -80px; left: -150px;">
+                                    <div class="annotation-title">CSS Animations</div>
+                                    <div>Keyframes with GPU optimization</div>
+                                    <div class="code-snippet">@keyframes fadeInUp {<br>  from { transform: translateY(30px); }<br>  to { transform: translateY(0); }<br>}</div>
+                                </div>
+                                <ul class="tech-list">
+                                    <li>Keyframe animations</li>
+                                    <li>Custom easing curves</li>
+                                    <li>GPU acceleration</li>
+                                    <li>Transform3d optimization</li>
+                                </ul>
+                            </div>
+
+                            <div class="tech-card animate-on-scroll">
+                                <h3>Interactive Effects</h3>
+                                <ul class="tech-list">
+                                    <li>Hover state management</li>
+                                    <li>Focus ring customization</li>
+                                    <li>Shimmer animations</li>
+                                    <li>Smooth transitions</li>
+                                </ul>
+                            </div>
+
+                            <div class="tech-card animate-on-scroll hover-zone">
+                                <h3>Custom Properties</h3>
+                                <div class="annotation" style="top: -60px; left: -200px;">
+                                    <div class="annotation-title">CSS Variables</div>
+                                    <div>Dynamic theme switching</div>
+                                    <div class="code-snippet">:root { --primary: #667eea; }<br>[data-theme="dark"] { --primary: #4a5568; }</div>
+                                </div>
+                                <ul class="tech-list">
+                                    <li>CSS custom properties</li>
+                                    <li>Dynamic theme switching</li>
+                                    <li>Cascade inheritance</li>
+                                    <li>Runtime updates</li>
+                                </ul>
+                            </div>
+
+                            <div class="tech-card animate-on-scroll">
+                                <h3>JavaScript Integration</h3>
+                                <ul class="tech-list">
+                                    <li>Intersection Observer</li>
+                                    <li>Canvas API</li>
+                                    <li>Event delegation</li>
+                                    <li>Performance optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- TECH DEMO: Canvas Chart -->
+                        <div class="chart-container hover-zone">
+                            <div class="annotation" style="top: -60px; left: 300px;">
+                                <div class="annotation-title">HTML5 Canvas</div>
+                                <div>Dynamic chart rendering with animations</div>
+                                <div class="code-snippet">const ctx = canvas.getContext('2d');<br>ctx.fillRect(x, y, width, height);</div>
+                            </div>
+                            <h2 style="margin-bottom: 2rem; color: #1f2937;">Interactive Canvas Demo</h2>
+                            <div class="chart" id="demoChart">
+                                <canvas width="800" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Feature List Section -->
+                <section id="features" class="section">
+                    <div class="demo-content">
+                        <h2 class="demo-title">Complete Feature List</h2>
+                        <div class="tech-grid">
+                            <div class="tech-card">
+                                <h3>CSS Advanced Features</h3>
+                                <ul class="tech-list">
+                                    <li>CSS Grid with auto-fit</li>
+                                    <li>Flexbox advanced alignment</li>
+                                    <li>Custom properties (variables)</li>
+                                    <li>Backdrop-filter glass effects</li>
+                                    <li>Transform3d GPU acceleration</li>
+                                    <li>Keyframe animations</li>
+                                    <li>Cubic-bezier easing</li>
+                                    <li>Pseudo-element styling</li>
+                                    <li>CSS filter effects</li>
+                                    <li>Gradient backgrounds</li>
+                                    <li>Clamp() responsive typography</li>
+                                    <li>Sticky positioning</li>
+                                </ul>
+                            </div>
+                            <div class="tech-card">
+                                <h3>JavaScript Integration</h3>
+                                <ul class="tech-list">
+                                    <li>Intersection Observer API</li>
+                                    <li>Canvas 2D rendering</li>
+                                    <li>Event delegation</li>
+                                    <li>Dynamic DOM manipulation</li>
+                                    <li>Smooth scrolling</li>
+                                    <li>Animation timing</li>
+                                    <li>Performance optimization</li>
+                                    <li>Memory management</li>
+                                </ul>
+                            </div>
+                            <div class="tech-card">
+                                <h3>Performance Features</h3>
+                                <ul class="tech-list">
+                                    <li>GPU-accelerated animations</li>
+                                    <li>Will-change optimization</li>
+                                    <li>Transform3d compositing</li>
+                                    <li>Efficient repaints</li>
+                                    <li>Lazy loading support</li>
+                                    <li>Minimal JavaScript</li>
+                                    <li>CSS-only animations</li>
+                                    <li>Hardware acceleration</li>
+                                </ul>
+                            </div>
+                            <div class="tech-card">
+                                <h3>UX/UI Excellence</h3>
+                                <ul class="tech-list">
+                                    <li>Responsive design</li>
+                                    <li>Accessibility features</li>
+                                    <li>Touch-friendly interactions</li>
+                                    <li>Smooth transitions</li>
+                                    <li>Loading states</li>
+                                    <li>Error handling</li>
+                                    <li>Progressive enhancement</li>
+                                    <li>Cross-browser compatibility</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // TECH DEMO: Loading Animation Management
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 2000); // Extended for demo purposes
+        });
+
+        // TECH DEMO: Enhanced Section Switching
+        function switchSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            // TECH DEMO: Animated Tab Indicator
+            const indicator = document.querySelector('.nav-indicator');
+            const tabRect = event.target.getBoundingClientRect();
+            const tabsRect = event.target.parentElement.getBoundingClientRect();
+            const position = ((tabRect.left - tabsRect.left) / tabsRect.width) * 100;
+            indicator.style.left = position + '%';
+            
+            // TECH DEMO: Canvas Animation Trigger
+            if (sectionId === 'demo') {
+                setTimeout(() => drawDemoChart(), 300);
+            }
+        }
+
+        // TECH DEMO: Intersection Observer for Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // TECH DEMO: Canvas Chart Rendering
+        function drawDemoChart() {
+            const canvas = document.querySelector('#demoChart canvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            
+            // High DPI support
+            canvas.width = rect.width * devicePixelRatio;
+            canvas.height = rect.height * devicePixelRatio;
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+            
+            // Demo data
+            const features = ['CSS Grid', 'Animations', 'Glass UI', 'Canvas', 'JS APIs'];
+            const values = [95, 88, 92, 85, 78];
+            const colors = ['#667eea', '#f093fb', '#4facfe', '#764ba2', '#f5576c'];
+            
+            // Chart dimensions
+            const padding = 40;
+            const chartWidth = rect.width - padding * 2;
+            const chartHeight = rect.height - padding * 2;
+            const barWidth = 60;
+            const barSpacing = (chartWidth - barWidth * features.length) / (features.length - 1);
+            const maxHeight = chartHeight - 60;
+            
+            // Clear and draw
+            ctx.clearRect(0, 0, rect.width, rect.height);
+            
+            // Animated bar drawing
+            features.forEach((feature, i) => {
+                const x = padding + (barWidth + barSpacing) * i;
+                const height = (values[i] / 100) * maxHeight;
+                const y = padding + 20 + maxHeight - height;
+                
+                // Gradient fill
+                const gradient = ctx.createLinearGradient(0, y, 0, y + height);
+                gradient.addColorStop(0, colors[i]);
+                gradient.addColorStop(1, colors[i] + '80');
+                
+                // Draw bar
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, height);
+                
+                // Draw label
+                ctx.fillStyle = '#374151';
+                ctx.font = '12px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(feature, x + barWidth/2, padding + 20 + maxHeight + 30);
+                
+                // Draw value
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px Inter';
+                ctx.fillText(values[i] + '%', x + barWidth/2, y + height/2 + 5);
+            });
+        }
+
+        // TECH DEMO: Theme Switching
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+        }
+
+        // TECH DEMO: Initialize Observers and Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            elementsToAnimate.forEach(el => observer.observe(el));
+            
+            // Initialize nav indicator
+            const activeTab = document.querySelector('.nav-tab.active');
+            if (activeTab) {
+                const indicator = document.querySelector('.nav-indicator');
+                indicator.style.left = '0%';
+            }
+            
+            // Initialize chart
+            setTimeout(() => drawDemoChart(), 500);
+        });
+
+        // TECH DEMO: Performance Monitoring
+        console.log('🚀 Tech Demo Features Loaded:');
+        console.log('- CSS Grid & Flexbox');
+        console.log('- Glass Morphism Effects');
+        console.log('- GPU-Accelerated Animations');
+        console.log('- Canvas 2D Rendering');
+        console.log('- Intersection Observer');
+        console.log('- Custom CSS Properties');
+        console.log('- Advanced Typography');
+        console.log('- Responsive Design');
+    </script>
+</body>
+</html>
